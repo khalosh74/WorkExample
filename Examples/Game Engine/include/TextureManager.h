@@ -13,7 +13,7 @@ namespace gui {
     protected:
         virtual void createTexture() = 0;
         SDL_Texture* texture = nullptr;
-        std::string imagesAddress = "C:/Users/Admin/Downloads/GameEngine/GameEngine/resources/images/";
+        std::string imagesAddress = "../../resources/images/";
         std::string fontsAddress = "C:/Users/Admin/Downloads/GameEngine/GameEngine/resources/fonts/";
     };
 
