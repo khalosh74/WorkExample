@@ -23,7 +23,7 @@ public class DashAdvanced : MonoBehaviour
     private bool isFacingRight;
     private bool isDashing;
     private bool onControlOverride;
-    private bool onGigaChadMode;
+    private bool onFullMode;
     [Header("E1")]
     [SerializeField] private float dashingDistace = 24f;
     [SerializeField] private float dashingDuration = 0.2f;
@@ -75,11 +75,11 @@ public class DashAdvanced : MonoBehaviour
         get => velocity.x;
     }
 
-    enum DashType { E1_BasicDash, E2_TwoStateDash, E3_AdvancedDash, E4_GigaChadDash }
+    enum DashType { E1_BasicDash, E2_TwoStateDash, E3_AdvancedDash, E4_FullDash }
     [SerializeField] private DashType dashType;
 
 
-
+    // Default Dash method (dash only horizontaly)
     public void DashWithJoystick(InputAction.CallbackContext context)
     {
         if (enabled == false || GameManager.Instance.GameIsPaused == true || GameManager.Instance.AcceptPlayerInput == false || (!canDash && isDashing)) return;
@@ -89,17 +89,15 @@ public class DashAdvanced : MonoBehaviour
         }
     }
 
-    public void SetVelocity(Vector2 nVel)
-    {
-        velocity = nVel;
-    }
-
+    // Override Dash method (dash into the direction of the joystick input)
     public void CheckDashWithJoystickDirection(InputAction.CallbackContext context)
     {
         if (GameManager.Instance.GameIsPaused == true || GameManager.Instance.AcceptPlayerInput == false || (!canDash && isDashing)) return;
         Flip();
         direction = context.ReadValue<Vector2>().normalized;
     }
+
+    //Seting up Dash at the Start of the game
     private void Start()
     {
         currentDashingDistace = dashingDistace;
@@ -111,7 +109,7 @@ public class DashAdvanced : MonoBehaviour
         cc = GetComponent<CharacterController>();
     }
 
-
+    //Updating Dash each frame
     private void Update()
     {
         if (GameManager.Instance.GameIsPaused == true || GameManager.Instance.AcceptPlayerInput == false) return;
@@ -120,52 +118,47 @@ public class DashAdvanced : MonoBehaviour
         {
             mousePos = Input.mousePosition;
             direction = (mousePos - Camera.main.WorldToScreenPoint(transform.position)).normalized;
-            //print("yo4");
-            //Debug.Log("keyboard dash");
         }
 
         if (isDashing)
         {
-            Debug.DrawLine(transform.position + new Vector3(0f, 0.5f, -0.3f), transform.position + new Vector3(0f, 0.5f, -0.3f) + velocity * Time.deltaTime, Color.red, 5);
-
             if (canMoveWhileDashing && !stopGravityWhileDashing) cc.Move(velocity * Time.deltaTime);
             else if (canMoveWhileDashing) cc.Move((velocity - new Vector3(0f, movement.Velocity.y, 0f)) * Time.deltaTime);
             else if (!stopGravityWhileDashing) cc.Move((velocity - new Vector3(movement.Velocity.x, 0f, 0f)) * Time.deltaTime);
             else cc.Move((velocity - (Vector3)movement.Velocity) * Time.deltaTime);
         }
     }
+
+    //check the type of dash we want to use
     private void CheckDashType()
     {
         switch (dashType)
         {
             case DashType.E1_BasicDash:
                 SetDirection();
-                //print("yo1");
                 break;
             case DashType.E2_TwoStateDash:
                 CheckIfGrounded();
                 SetDirection();
-                //print("yo2");
                 break;
             case DashType.E3_AdvancedDash:
                 CheckIfGrounded();
                 SetDirectionWithControlOverride();
-                //print("yo3");
                 break;
-            case DashType.E4_GigaChadDash:
-                onGigaChadMode = true;
+            case DashType.E4_FullDash:
+                onFullMode = true;
                 CheckIfGrounded();
                 SetDirectionWithControlOverride();
-                //print("yo4");
                 break;
         }
 
     }
+
+    //BasicDashAction is a horizantal dash. Dashes toword the direction th
     private IEnumerator BasicDashAction()
     {
         StartDashProtocol();
         velocity = new Vector3(direction.x * currentDashingDistace, 0f, 0f);
-        Debug.DrawLine(transform.position + new Vector3(0f, 0.5f, 0.3f), transform.position + new Vector3(0f, 0.5f, 0.3f) + direction * currentDashingDistace * currentDashingDuration, Color.green, 5);
 
         yield return new WaitForSeconds(currentDashingDuration);
         EndDashProtocol();
@@ -209,12 +202,10 @@ public class DashAdvanced : MonoBehaviour
         if (isFacingRight)
         {
             direction = Vector2.right;
-            //Debug.Log("Right");
         }
         else
         {
             direction = Vector2.left;
-            //Debug.Log("Left");
         }
         StartCoroutine(BasicDashAction());
     }
@@ -224,34 +215,22 @@ public class DashAdvanced : MonoBehaviour
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // -90 degrees
         if (direction.x != 0 && direction.y != 0)
         {
-            //print("direionangle");
             onControlOverride = true;
             if (angle >= dashUpAngle - dashUpAngleRange && angle <= dashUpAngle + dashUpAngleRange)
             {
                 direction = Vector3.up;
                 StartCoroutine(UpDashAction());
-                //print("yo1");
                 return;
             }
             else if (currentCanDashDown && angle >= dashDownAngle - dashDownAngleRange && angle <= dashDownAngle + dashDownAngleRange)
             {
                 direction = Vector3.down;
                 StartCoroutine(UpDashAction());
-                //print("yo2");
                 return;
             }
-            else if (onGigaChadMode && (direction.y >= 0 || currentCanDashDown))
+            else if (onFullMode && (direction.y >= 0 || currentCanDashDown))
             {
-                //print("yo3");
-                //if (!playerDetails.IsUsingController)
-                //{
-
-                //    mousePos = Input.mousePosition;
-                //    direction = mousePos - Camera.main.WorldToScreenPoint(transform.position);
-                //    Debug.Log("keyboard dash");
-                //}
-                StartCoroutine(GigaChadDashAction());
-                //print("yo3");
+                StartCoroutine(FullDashAction());
                 return;
             }
 
@@ -262,20 +241,17 @@ public class DashAdvanced : MonoBehaviour
     {
         StartDashProtocol();
         velocity = new Vector3(0f, direction.y * currentDashingDistace - movement.Velocity.y, 0f);
-        Debug.DrawLine(transform.position + new Vector3(0f, 0.5f, 0.3f), transform.position + new Vector3(0f, 0.5f, 0.3f) + velocity * currentDashingDuration, Color.green, 5);
         yield return new WaitForSeconds(currentDashingDuration);
         EndDashProtocol();
         yield return new WaitForSeconds(dashingActivationCooldown);
         CharacterGlow.SetActive(false);
         canDash = true;
     }
-    private IEnumerator GigaChadDashAction()
+    private IEnumerator FullDashAction()
     {
         StartDashProtocol();
 
-        //Debug.Log("giga dash");
         velocity = new Vector3(direction.x * currentDashingDistace, direction.y * currentDashingDistace, 0f);
-        Debug.DrawLine(transform.position + new Vector3(0f, 0.5f, 0.3f), transform.position + new Vector3(0f, 0.5f, 0.3f) + velocity * currentDashingDuration, Color.green, 5);
         yield return new WaitForSeconds(currentDashingDuration);
         EndDashProtocol();
         yield return new WaitForSeconds(dashingActivationCooldown);
@@ -301,7 +277,6 @@ public class DashAdvanced : MonoBehaviour
     private void CheckForCollision()
     {
         RaycastHit hit;
-        Debug.DrawLine(transform.position + new Vector3(0f, 0.5f, 0), transform.position + new Vector3(0f, 0.5f, 0) + direction * (currentDashingDistace * currentDashingDuration + cc.center.x), Color.blue, 5);
         if (Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0), direction, out hit, currentDashingDistace * currentDashingDuration + cc.center.x, collisionLayer)) //10 is a the number that make dash distance works correct 
         {
             if (onControlOverride)
