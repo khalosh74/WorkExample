@@ -1,0 +1,225 @@
+/* Khaled Alraas khal6952 */
+
+*, *::before, *::after{
+    box-sizing: border-box;
+    font-family: cursive, 'Courier New', Courier, monospace, sans-serif;
+    font-size: 25px;
+    padding: 3px 2px;
+}
+
+:root{ 
+    --hue-neutral: 200;
+    --hue-wrong: 0;
+    --hue-correct: 145;
+}/* some color values for different purposes */
+
+body{
+    --hue: var(--hue-neutral);
+    background-color: hsl(var(--hue), 100%, 20%);
+}/* initializing the background color */
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+}
+.menuContainer{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    max-width: 1200;
+    height: 35%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px 2px;
+}
+
+.container{
+    width: 20%;
+    min-width: 300px;
+    max-width: 1000px;
+    height: 35%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px 2px;
+} /* The width, hight, color, edges smoothness of the containar */
+
+h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    color: aliceblue;
+}
+
+.btn{
+    --hue: var(--hue-neutral);
+    border: 2px solid hsl(var(--hue), 100%, 30%);
+    background-color: hsl(var(--hue), 100%, 50%);
+    border-radius: 20px;
+    font-size: 44px;
+    padding: 20px 60px;
+    margin: 20px;
+    color: white;
+    outline: none;
+    
+}/* the values of the buttons(color, border thickness, and so on ..) */
+
+.btn:hover{
+    border-color: rgba(0, 0, 0, 0.794);
+}/* color of the button's border when hovering over it */
+
+.hide{
+    display: none;
+}/* hide every element with the class 'hide' */
+
+.title{
+    display: flex;
+    justify-content: center;
+    font-size: 60px;
+    font-weight: bold;
+}/* the page title look */
+.credit{
+    display: flex;
+    justify-content: center;
+    margin: 3%;
+    font-size: 30px;
+}/* the credit text look */
+
+.info-btn{
+    font-style: italic;    
+}
+
+.none-renewable-grid-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    background-color: #ce413c;
+    border-radius: 20px;
+    padding: 20px;
+    width: 1000px;
+    height: 50%;
+    margin: 20px;
+    margin-top: 100px;
+}
+
+.renewable-grid-container{
+    display: inline-grid;
+    grid-template-columns: auto auto auto ;
+    background-color: #29d14d;
+    border-radius: 20px;
+    padding: 20px;
+    width: 1000px;
+    height: 50%;
+    margin: 10px;
+}
+  
+.grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.plus-btn{
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+}
+
+.minus-btn{
+      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+}
+
+.center-r{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar{
+    flex-flow: wrap;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    background-color: #497aaa;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+  
+li {
+    float: left;
+}
+  
+li div {
+    display: block;
+    padding: 10px;
+    width: 300px;
+    background-color: #dddddd;
+}
+
+.loadbar{
+    width:50px;
+    height:500px;
+    background-color:#fff;
+    border:1px solid rgb(27, 27, 27);
+    border-radius: 15px;
+    border-width: 4px;
+    position:relative; 
+    padding: 0px;
+    margin-left: 100px;
+}
+
+.elBar{
+    padding: 0px;
+    margin: 0px;
+    height:50%;
+    max-height: 100%;
+    width: 100%;
+    display:block;        
+    font-family:arial;
+    font-size:18px; 
+    display: flex;
+    justify-content: center;
+    background-color:#f6bc0f;
+    color:rgb(0, 0, 0);       
+    position:absolute;
+    border-radius: 10px;
+    bottom:0;
+}
+
+.co2Bar{
+    padding: 0px;
+    margin: 0px;
+    height:50%;
+    width: 100%;
+    max-height: 100%;
+    display:block;        
+    font-family:arial;
+    font-size:18px; 
+    display: flex;
+    justify-content: center;
+    background-color:#20e039;
+    color:rgb(0, 0, 0);       
+    position:absolute;
+    border-radius: 10px;
+    bottom:0;
+}

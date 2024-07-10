@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles/styles.css">
+    <script defer src="Scripts/scripts.js"></script>
+    <title>Save The Earth</title>
+</head>
+<body>
+    <!--Here is the menu-->
+    <section id="menu" class="center">
+        <h1 class="title">Save The Earth</h1><br>
+        <div id="controllers" class="menuContainer center">
+            <div class="center">
+                <button id="start-btn" class="btn">Start</button> <!-- start the game -->
+                <button id="info-btn" class="info-btn btn">Info</button> <!-- Instructions -->
+                <form action="https://people.dsv.su.se/~khal6952/Eportfolio/index.html">
+                    <input id="eportfolio" class="info-btn btn" type="submit" value="eportfolio" />
+                </form>
+            </div>
+        </div>
+        <footer class="credit">This game made by Khaled Alraas :)</footer>
+        <!-- The instruction menu --> 
+        <div id="infoDisplay" class="menuContainer center hide">
+            <div class="center">
+                <div >
+                    <img src="images/instruction1.png" alt="Girl in a jacket" width="1300" height="720">
+                    <img src="images/instruction2.png" alt="Girl in a jacket" width="1300" height="720">  
+                    <img src="images/instruction3.png" alt="Girl in a jacket" width="1300" height="720">  
+                    <img src="images/instruction4.png" alt="Girl in a jacket" width="1300" height="720">  
+                </div>
+                <button id="back-btn1" class=" btn">Back</button> 
+            </div>
+        </div>
+    </section>
+    <!-- Here is the game it self with all its elements -->
+    <div id="all" class=" hide">
+        <!-- Shows population and economy on the navigation bar -->
+        <nav class="nav-bar">
+            <ul>
+                <li><div>
+                    <label>Population: </label>
+                <span id="displayPopulation">0</span><label>M</label><br>
+                </div></li>
+                <li><div>
+                    <label>Money:</label>
+                    <span id="displayMoney">0</span>
+                </div></li>
+            </ul>
+        </nav>
+        <!-- The factories container -->
+        <div class="center-r">
+            <div class="center">
+                <!-- none renewable factories -->
+                <div class="none-renewable-grid-container container">
+                    <div class="factory grid-item">
+                        <div >Coal Factory</div> <br>
+                        <button id="add-Coal" class="plus-btn">+</button>
+                        <label id="displayCoal">12</label>
+                        <button id="remove-Coal" class="minus-btn" >-</button><br>
+                        <label>buy: 100$</label><br>
+                        <label>sell: 65$</label>
+                    </div>
+                    <div class="factory grid-item">
+                        <div>Oil Factory</div><br>
+                        <button id="add-Oil" class="plus-btn">+</button>
+                        <label id="displayOil">8</label>
+                        <button id="remove-Oil" class="minus-btn" >-</button><br>
+                        <label>buy: 150$ </label><br>
+                        <label>sell: 50$</label>
+                    </div>
+                    <div class="factory grid-item">
+                        <div>NaturalGas Factory</div><br>
+                        <button id="add-NaturalGas" class="plus-btn">+</button>
+                        <label id="displayNaturalGas">4</label>
+                        <button id="remove-NaturalGas" class="minus-btn" >-</button><br>
+                        <label>buy: 200$</label><br>
+                        <label>sell: 70$</label>
+                    </div>
+                </div>
+                <!-- The renewablr factories -->
+                <div class="renewable-grid-container container">
+                    <div class="factory grid-item">
+                        <div>Wind Energy</div><br>
+                        <button id="add-Wind" class="plus-btn">+</button>
+                        <label id="displayWind">0</label>
+                        <button id="remove-Wind" class="minus-btn" disabled>-</button><br>
+                        <label>buy: 300$</label><br>
+                        <label>sell: 100$</label>
+                    </div>
+                    <div class="factory grid-item">
+                        <div>Solar Energy</div><br>
+                        <button id="add-Solar" class="plus-btn">+</button>
+                        <label id="displaySolar">0</label>
+                        <button id="remove-Solar" class="minus-btn" disabled>-</button><br>
+                        <label>buy: 250$</label><br>
+                        <label>sell: 85$</label>
+                    </div>
+                    <div class="factory grid-item">
+                        <div>Hydroelectric Energy</div><br>
+                        <button id="add-Hydroelectric" class="plus-btn">+</button>
+                        <label id="displayHydroelectric">0</label>
+                        <button id="remove-Hydroelectric" class="minus-btn" disabled>-</button><br>
+                        <label>buy: 350$</label><br>
+                        <label>sell: 120$</label>
+                    </div>
+                </div>
+                <!-- Shows the amount of electricity and the amount of CO2-->
+                <div class="container">
+                    <label>Electrecity: </label>
+                    <span id="displayElSum">0</span>
+                    <label>MW</label><br>
+                    <label>CO2: </label>
+                    <span id="displayCo2Sum">0</span>
+                    <label>MT</label>
+                </div>
+            </div>
+            <!-- The electricity bar + CO2 bar -->
+            <div class="center-r">
+                <div class="elStatus-container">          
+                    <div class="loadbar">
+                        <div id="elStatus" class="elBar"> <img src="images/Electric-icon.png" alt="Electric-icon" width="40" height="40">
+                        </div>
+                    </div>
+                </div>
+                <div class="co2Status-container">          
+                    <div class="loadbar">
+                        <div id="co2Status" class="co2Bar"> <img src="images/Earth-icon.png" alt="Earth-icon" width="40" height="40">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The winning and losing scens-->
+    <section id="win" class="hide center">
+        <h1>YOU WIN :)</h1>
+        <button id="restart-btn-win" class="btn">Try again</button>
+    </section>
+    <section id="lose" class="hide center">
+        <h1>YOU lost :(</h1>
+        <h3 id="whyLost">s</h3>
+        <p>hint: The rich get richer</p>
+        <button id="restart-btn-lose" class="btn">Try again</button>
+    </section>
+</body>
+</html>
